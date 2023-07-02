@@ -2,6 +2,7 @@ package dentistaPkg
 
 import (
 	"database/sql"
+	"log"
 
 	"github.com/MarcelaRamg/FinalBack3.git/internal/domain"
 )
@@ -10,7 +11,16 @@ type sqlStore struct {
 	DB *sql.DB
 }
 
-func NewSqlStore(database *sql.DB) DentistaInterface {
+func NewSQLDentista() DentistaInterface {
+	database, err := sql.Open("mysql", "root:toor@tcp(localhost:3306)/clinica")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := database.Ping(); err != nil {
+		log.Fatalln(err)
+	}
+
 	return &sqlStore{
 		DB: database,
 	}
