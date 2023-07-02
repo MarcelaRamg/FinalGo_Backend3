@@ -30,7 +30,7 @@ func NewSQLPaciente() PacienteInterface {
 }
 
 func (s *sqlPaciente) Delete(id int) error {
-	_, err := s.db.Exec("DELETE FROM Pacientes WHERE id=?", id)
+	_, err := s.db.Exec("DELETE FROM Pacientes WHERE ID=?", id)
 	if err != nil {
 		return err
 	}
@@ -41,7 +41,7 @@ func (s *sqlPaciente) Delete(id int) error {
 func (s *sqlPaciente) Read(id int) (domain.Paciente, error) {
 	paciente := domain.Paciente{}
 
-	rows, err := s.db.Query("SELECT * from Pacientes WHERE id=?", id)
+	rows, err := s.db.Query("SELECT * from Pacientes WHERE ID=?", id)
 	if err != nil {
 		return domain.Paciente{}, err
 	}
@@ -63,7 +63,7 @@ func (s *sqlPaciente) Read(id int) (domain.Paciente, error) {
 func (s *sqlPaciente) Update(paciente domain.Paciente) error {
 	fmt.Println("updating Paciente")
 	_, err := s.db.Exec(
-		"UPDATE pacientes SET name = ?, apellido = ?, dni = ?, fecha_nacimiento = ? WHERE id = ?;",
+		"UPDATE Pacientes SET Nombre = ?, Apellido = ?, Dni = ?, FechaAlta = ? WHERE ID = ?;",
 		paciente.Nombre,
 		paciente.Apellido,
 		paciente.Dni,
@@ -83,7 +83,7 @@ func (s *sqlPaciente) Exists(RG string) bool {
 
 func (s *sqlPaciente) Create(paciente domain.Paciente) error {
 	_, err := s.db.Exec(
-		"INSERT INTO Pacientes (name, apellido, dni, fecha_nacimiento) VALUES (?, ?, ?, ?)",
+		"INSERT INTO Pacientes (Nombre, Apellido, Dni, FechaAlta) VALUES (?, ?, ?, ?)",
 		paciente.Nombre,
 		paciente.Apellido,
 		paciente.Dni,
