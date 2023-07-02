@@ -53,7 +53,7 @@ func validateEmptys(dentista *domain.Dentista) (bool, error) {
 func (h *dentistaHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var dentista domain.Dentista
-		/* token := c.GetHeader("TOKEN")
+		token := c.GetHeader("TOKEN")
 		if token == "" {
 			web.Failure(c, 401, errors.New("token not found"))
 			return
@@ -61,7 +61,7 @@ func (h *dentistaHandler) Post() gin.HandlerFunc {
 		if token != os.Getenv("TOKEN") {
 			web.Failure(c, 401, errors.New("invalid token"))
 			return
-		}  */
+		}
 		err := c.ShouldBindJSON(&dentista)
 		if err != nil {
 			web.Failure(c, 400, errors.New("invalid json"))
@@ -85,7 +85,7 @@ func (h *dentistaHandler) Post() gin.HandlerFunc {
 // Delete elimina un dentista
 func (h *dentistaHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		/* token := c.GetHeader("TOKEN")
+		token := c.GetHeader("TOKEN")
 		if token == "" {
 			web.Failure(c, 401, errors.New("token not found"))
 			return
@@ -93,7 +93,7 @@ func (h *dentistaHandler) Delete() gin.HandlerFunc {
 		if token != os.Getenv("TOKEN") {
 			web.Failure(c, 401, errors.New("invalid token"))
 			return
-		} */
+		}
 		idParam := c.Param("id")
 		id, err := strconv.Atoi(idParam)
 		if err != nil {
@@ -112,7 +112,7 @@ func (h *dentistaHandler) Delete() gin.HandlerFunc {
 // Put actualiza un dentista
 func (h *dentistaHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		/* token := c.GetHeader("TOKEN")
+		token := c.GetHeader("TOKEN")
 		if token == "" {
 			web.Failure(c, 401, errors.New("token not found"))
 			return
@@ -120,7 +120,7 @@ func (h *dentistaHandler) Put() gin.HandlerFunc {
 		if token != os.Getenv("TOKEN") {
 			web.Failure(c, 401, errors.New("invalid token"))
 			return
-		} */
+		}
 		idParam := c.Param("id")
 		id, err := strconv.Atoi(idParam)
 		if err != nil {

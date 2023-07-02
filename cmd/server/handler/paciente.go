@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"os"
 	"strconv"
 	"strings"
 
@@ -69,6 +70,15 @@ func validateFechaAlta(exp string) (bool, error) {
 
 func (h *pacienteHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		token := c.GetHeader("TOKEN")
+		if token == "" {
+			web.Failure(c, 401, errors.New("token not found"))
+			return
+		}
+		if token != os.Getenv("TOKEN") {
+			web.Failure(c, 401, errors.New("invalid token"))
+			return
+		}
 		var paciente domain.Paciente
 		err := c.ShouldBindJSON(&paciente)
 		if err != nil {
@@ -96,7 +106,15 @@ func (h *pacienteHandler) Post() gin.HandlerFunc {
 
 func (h *pacienteHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
+		token := c.GetHeader("TOKEN")
+		if token == "" {
+			web.Failure(c, 401, errors.New("token not found"))
+			return
+		}
+		if token != os.Getenv("TOKEN") {
+			web.Failure(c, 401, errors.New("invalid token"))
+			return
+		}
 		idParam := c.Param("id")
 		id, err := strconv.Atoi(idParam)
 		if err != nil {
@@ -114,6 +132,15 @@ func (h *pacienteHandler) Delete() gin.HandlerFunc {
 
 func (h *pacienteHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		token := c.GetHeader("TOKEN")
+		if token == "" {
+			web.Failure(c, 401, errors.New("token not found"))
+			return
+		}
+		if token != os.Getenv("TOKEN") {
+			web.Failure(c, 401, errors.New("invalid token"))
+			return
+		}
 		idParam := c.Param("id")
 		id, err := strconv.Atoi(idParam)
 		if err != nil {
@@ -162,6 +189,15 @@ func (h *pacienteHandler) Patch() gin.HandlerFunc {
 		FechaAlta string  `json:"FechaAlta,omitempty"`
 	}
 	return func(c *gin.Context) {
+		token := c.GetHeader("TOKEN")
+		if token == "" {
+			web.Failure(c, 401, errors.New("token not found"))
+			return
+		}
+		if token != os.Getenv("TOKEN") {
+			web.Failure(c, 401, errors.New("invalid token"))
+			return
+		}
 		var r Request
 		idParam := c.Param("id")
 		id, err := strconv.Atoi(idParam)

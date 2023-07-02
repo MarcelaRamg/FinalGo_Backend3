@@ -14,18 +14,13 @@ type sqlPaciente struct {
 	db *sql.DB
 }
 
-func NewSQLPaciente() PacienteInterface {
-	database, err := sql.Open("mysql", "root:toor@tcp(localhost:3306)/clinica")
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	if err := database.Ping(); err != nil {
+func NewSQLPaciente(db *sql.DB) PacienteInterface {
+	if err := db.Ping(); err != nil {
 		log.Fatalln(err)
 	}
 
 	return &sqlPaciente{
-		db: database,
+		db: db,
 	}
 }
 
