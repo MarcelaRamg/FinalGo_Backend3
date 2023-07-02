@@ -6,8 +6,10 @@ import (
 	"github.com/MarcelaRamg/FinalBack3.git/cmd/server/handler"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/dentista"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/paciente"
+	"github.com/MarcelaRamg/FinalBack3.git/internal/turno"
 	"github.com/MarcelaRamg/FinalBack3.git/pkg/dentistaPkg"
 	"github.com/MarcelaRamg/FinalBack3.git/pkg/pacientePkg"
+	"github.com/MarcelaRamg/FinalBack3.git/pkg/turnoPkg"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,6 +38,12 @@ func main() {
 	servicePaciente := paciente.NewService(repoPaciente)
 	pacienteHandler := handler.NewPacienteHandler(servicePaciente)
 
+	//Turno
+	storageTurno := turnoPkg.NewSQLTurno()
+	repoTurno := turno.NewTurnoRepository(storageTurno)
+	serviceTurno := turno.NewService(repoTurno)
+	turnoHandler := handler.NewTurnoHandler(serviceTurno)
+
 	r := gin.Default()
 
 	r.GET("/ping", func(c *gin.Context) { c.String(200, "pong") })
@@ -55,6 +63,14 @@ func main() {
 		pacientes.DELETE(":id", pacienteHandler.Delete())
 		pacientes.PATCH(":id", pacienteHandler.Patch())
 		pacientes.PUT(":id", pacienteHandler.Put())
+	}
+	turnos := r.Group("/turnos")
+	{
+		turnos.GET(":id", turnoHandler.GetByID())
+		turnos.POST("", turnoHandler.Post())
+		turnos.DELETE(":id", turnoHandler.Delete())
+		turnos.PATCH(":id", turnoHandler.Patch())
+		turnos.PUT(":id", turnoHandler.Put())
 	}
 
 	//docs.SwaggerInfo.Host = os.Getenv("HOST")
