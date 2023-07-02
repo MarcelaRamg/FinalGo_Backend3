@@ -41,17 +41,17 @@ func (h *pacienteHandler) GetByID() gin.HandlerFunc {
 
 func validateEmptys3(paciente *domain.Paciente) (bool, error) {
 	switch {
-	case paciente.Nombre == "" || paciente.Apellido == "" || paciente.Dni == "" || paciente.FechaAlta == "":
+	case paciente.Nombre == "" || paciente.Apellido == "" || paciente.Dni == 0 || paciente.FechaAlta == "":
 		return false, errors.New("fields can't be empty")
 	}
 	return true, nil
 }
 
 func validateFechaAlta(exp string) (bool, error) {
-	dates := strings.Split(exp, "/")
+	dates := strings.Split(exp, "-")
 	list := []int{}
 	if len(dates) != 3 {
-		return false, errors.New("invalid FechaAlta date, must be in format: dd/mm/yyyy")
+		return false, errors.New("invalid FechaAlta date, must be in format: yyyy-mm-dd")
 	}
 	for value := range dates {
 		number, err := strconv.Atoi(dates[value])
@@ -60,9 +60,9 @@ func validateFechaAlta(exp string) (bool, error) {
 		}
 		list = append(list, number)
 	}
-	condition := (list[0] < 1 || list[0] > 31) && (list[1] < 1 || list[1] > 12) && (list[2] < 1 || list[2] > 9999)
+	condition := (list[0] < 1 || list[0] > 9999) && (list[1] < 1 || list[1] > 12) && (list[2] < 1 || list[2] > 31)
 	if condition {
-		return false, errors.New("invalid FechaAlta date, date must be between 1 and 31/12/9999")
+		return false, errors.New("invalid FechaAlta date, date must be between 1 and 9999-12-31")
 	}
 	return true, nil
 }
@@ -72,7 +72,7 @@ func (h *pacienteHandler) Post() gin.HandlerFunc {
 		var paciente domain.Paciente
 		err := c.ShouldBindJSON(&paciente)
 		if err != nil {
-			web.Failure(c, 400, errors.New("invalid json"))
+			web.Failure(c, 400, errors.New("invalid json, use this template:{'id': int,'nombre': string,'apellido': string,'dni': int64,'fechaAlta': 'yyyy-mm-dd'}"))
 			return
 		}
 		valid, err := validateEmptys3(&paciente)
@@ -156,10 +156,10 @@ func (h *pacienteHandler) Put() gin.HandlerFunc {
 
 func (h *pacienteHandler) Patch() gin.HandlerFunc {
 	type Request struct {
-		Nombre    string `json:"name,omitempty"`
-		Apellido  string `json:"Apellido,omitempty"`
-		Dni       string `json:"Dni,omitempty"`
-		FechaAlta string `json:"FechaAlta,omitempty"`
+		Nombre    string  `json:"name,omitempty"`
+		Apellido  string  `json:"Apellido,omitempty"`
+		Dni       float64 `json:"Dni,omitempty"`
+		FechaAlta string  `json:"FechaAlta,omitempty"`
 	}
 	return func(c *gin.Context) {
 		var r Request

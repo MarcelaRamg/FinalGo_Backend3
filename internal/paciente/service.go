@@ -44,16 +44,16 @@ func (s *service) Update(id int, u domain.Paciente) (domain.Paciente, error) {
 	if err != nil {
 		return domain.Paciente{}, err
 	}
-	if u.Nombre == "" {
+	if u.Nombre != "" {
 		p.Nombre = u.Nombre
 	}
-	if u.Apellido == "" {
+	if u.Apellido != "" {
 		p.Apellido = u.Apellido
 	}
-	if u.Dni == "" {
+	if u.Dni != 0 {
 		p.Dni = u.Dni
 	}
-	if u.FechaAlta == "" {
+	if u.FechaAlta != "" {
 		p.FechaAlta = u.FechaAlta
 	}
 	p, err = s.r.Update(id, p)
