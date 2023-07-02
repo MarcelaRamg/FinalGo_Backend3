@@ -22,7 +22,15 @@ func NewDentistaHandler(s dentista.DentistaService) *dentistaHandler {
 	}
 }
 
-// Get obtiene un dentista por id
+// @Summary List dentistas
+// @Tags Dentistas
+// @Description get dentistas
+// @Accept  json
+// @Produce  json
+// @Param token header string true "token"
+// @Success 200 {object} web.Response
+// @Router /products [get]
+
 func (h *dentistaHandler) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("id")

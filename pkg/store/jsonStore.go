@@ -35,6 +35,16 @@ func (s *jsonStore) saveDentistas(dentista []domain.Dentista) error {
 	return os.WriteFile(s.pathToFile, bytes, 0644)
 }
 
+// @Summary Store dentistas
+// @Tags Dentistas
+// @Description store dentistas
+// @Accept  json
+// @Produce  json
+// @Param token header string true "token"
+// @Param product body request true "Dentistas to store"
+// @Success 200 {object} web.Response
+// @Router /products [post]
+
 // NewJsonStore crea un nuevo store de dentistas
 func NewJsonStore(path string) DentistaInterface {
 	_, err := os.Stat(path)
@@ -50,6 +60,7 @@ func (s *jsonStore) GetAll() ([]domain.Dentista, error) {
 	return nil, nil
 }
 
+// Lee los dentistas
 func (s *jsonStore) Read(id int) (domain.Dentista, error) {
 	dentistas, err := s.loadDentistas()
 	if err != nil {
@@ -63,6 +74,7 @@ func (s *jsonStore) Read(id int) (domain.Dentista, error) {
 	return domain.Dentista{}, errors.New("dentista not found")
 }
 
+// Crea los dentistas
 func (s *jsonStore) Create(dentista domain.Dentista) error {
 	dentistas, err := s.loadDentistas()
 	if err != nil {
@@ -73,6 +85,7 @@ func (s *jsonStore) Create(dentista domain.Dentista) error {
 	return s.saveDentistas(dentistas)
 }
 
+// Actualiza los dentistas
 func (s *jsonStore) Update(dentista domain.Dentista) error {
 	dentistas, err := s.loadDentistas()
 	if err != nil {
@@ -87,6 +100,7 @@ func (s *jsonStore) Update(dentista domain.Dentista) error {
 	return errors.New("dentista not found")
 }
 
+// Elimina a los dentistas
 func (s *jsonStore) Delete(id int) error {
 	dentistas, err := s.loadDentistas()
 	if err != nil {
@@ -101,6 +115,7 @@ func (s *jsonStore) Delete(id int) error {
 	return errors.New("dentista not found")
 }
 
+// Verifica que los dentistas existan
 func (s *jsonStore) Exists(codeValue string) bool {
 	products, err := s.loadDentistas()
 	if err != nil {
