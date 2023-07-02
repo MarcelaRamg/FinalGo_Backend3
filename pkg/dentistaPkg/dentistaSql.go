@@ -30,7 +30,7 @@ func (s *sqlStore) Read(id int) (domain.Dentista, error) {
 
 	var dentistaReturn domain.Dentista
 
-	query := "SELECT * FROM dentistas WHERE id = ?;"
+	query := "SELECT * FROM dentista WHERE ID = ?;"
 	row := s.DB.QueryRow(query, id)
 	err := row.Scan(&dentistaReturn.ID, &dentistaReturn.Apellido, &dentistaReturn.Nombre, &dentistaReturn.Matricula)
 	if err != nil {
@@ -41,7 +41,7 @@ func (s *sqlStore) Read(id int) (domain.Dentista, error) {
 
 func (s *sqlStore) Create(dentista domain.Dentista) error {
 
-	query := "INSERT INTO dentistas(apellido, nombre, matricula) VALUES(?, ?, ?)"
+	query := "INSERT INTO dentista(Apellido, Nombre, Matricula) VALUES(?, ?, ?)"
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
 		return err
@@ -61,7 +61,7 @@ func (s *sqlStore) Create(dentista domain.Dentista) error {
 
 func (s *sqlStore) Update(dentista domain.Dentista) error {
 
-	query := "UPDATE dentistas SET apellido = ?, nombre = ?,  WHERE id = ?;"
+	query := "UPDATE dentista SET Apellido = ?, Nombre = ?, Matricula = ?  WHERE ID = ?;"
 
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
@@ -82,7 +82,7 @@ func (s *sqlStore) Update(dentista domain.Dentista) error {
 
 func (s *sqlStore) Delete(id int) error {
 
-	query := "DELETE FROM dentistas WHERE id = ?"
+	query := "DELETE FROM dentista WHERE ID = ?"
 	_, err := s.DB.Exec(query, id)
 	if err != nil {
 		return err
@@ -92,7 +92,7 @@ func (s *sqlStore) Delete(id int) error {
 
 func (s *sqlStore) Exists(codeValue string) bool {
 
-	query := "SELECT id FROM dentistas WHERE code_value = ?"
+	query := "SELECT ID FROM dentista WHERE Matricula like(%?%)"
 	row := s.DB.QueryRow(query, codeValue)
 	var id int
 	err := row.Scan(&id)
