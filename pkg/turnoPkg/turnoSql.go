@@ -45,8 +45,8 @@ func (s *sqlTurno) Read(id int) (domain.Turno, error) {
 			&turno.ID,
 			&turno.FechaHora,
 			&turno.PacienteID,
-			&turno.Descripcion,
 			&turno.DentistaID,
+			&turno.Descripcion,
 		)
 		if err != nil {
 			return domain.Turno{}, err

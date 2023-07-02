@@ -43,7 +43,7 @@ ENGINE = InnoDB;
 -- Table `clinica`.`Turno`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `clinica`.`Turno` (
-  `ID` INT NOT NULL,
+  `ID` INT NOT NULL AUTO_INCREMENT,
   `FechaHora` DATETIME NOT NULL,
   `PacienteID` INT NOT NULL,
   `DentistaID` INT NOT NULL,
