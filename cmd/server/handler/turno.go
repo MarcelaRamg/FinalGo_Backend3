@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"os"
 	"strconv"
 
 	"github.com/MarcelaRamg/FinalBack3.git/internal/domain"
@@ -42,6 +43,15 @@ func (h *turnoHandler) GetByID() gin.HandlerFunc {
 // Post crea un nuevo turno
 func (h *turnoHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		token := c.GetHeader("TOKEN")
+		if token == "" {
+			web.Failure(c, 401, errors.New("token not found"))
+			return
+		}
+		if token != os.Getenv("TOKEN") {
+			web.Failure(c, 401, errors.New("invalid token"))
+			return
+		}
 		var turno domain.Turno
 		err := c.ShouldBindJSON(&turno)
 		if err != nil {
@@ -60,6 +70,15 @@ func (h *turnoHandler) Post() gin.HandlerFunc {
 // Delete elimina un turno
 func (h *turnoHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		token := c.GetHeader("TOKEN")
+		if token == "" {
+			web.Failure(c, 401, errors.New("token not found"))
+			return
+		}
+		if token != os.Getenv("TOKEN") {
+			web.Failure(c, 401, errors.New("invalid token"))
+			return
+		}
 		idParam := c.Param("id")
 		id, err := strconv.Atoi(idParam)
 		if err != nil {
@@ -78,6 +97,15 @@ func (h *turnoHandler) Delete() gin.HandlerFunc {
 // Put actualiza un turno
 func (h *turnoHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		token := c.GetHeader("TOKEN")
+		if token == "" {
+			web.Failure(c, 401, errors.New("token not found"))
+			return
+		}
+		if token != os.Getenv("TOKEN") {
+			web.Failure(c, 401, errors.New("invalid token"))
+			return
+		}
 		var turno domain.Turno
 		idParam := c.Param("id")
 		id, err := strconv.Atoi(idParam)
@@ -117,6 +145,15 @@ func (h *turnoHandler) Patch() gin.HandlerFunc {
 		DentistaID  string `json:"dentista_id,omitempty"`
 	}
 	return func(c *gin.Context) {
+		token := c.GetHeader("TOKEN")
+		if token == "" {
+			web.Failure(c, 401, errors.New("token not found"))
+			return
+		}
+		if token != os.Getenv("TOKEN") {
+			web.Failure(c, 401, errors.New("invalid token"))
+			return
+		}
 		var r Request
 		idParam := c.Param("id")
 		id, err := strconv.Atoi(idParam)

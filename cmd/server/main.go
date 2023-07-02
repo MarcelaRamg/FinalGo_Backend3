@@ -1,6 +1,11 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
+	"log"
+	"os"
+
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/MarcelaRamg/FinalBack3.git/cmd/server/handler"
@@ -11,6 +16,7 @@ import (
 	"github.com/MarcelaRamg/FinalBack3.git/pkg/pacientePkg"
 	"github.com/MarcelaRamg/FinalBack3.git/pkg/turnoPkg"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 // @title           Web Api
@@ -26,20 +32,41 @@ import (
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
 func main() {
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		fmt.Println(err)
+		log.Fatal("Error al intentar cargar archivo .env")
+	}
+	username := os.Getenv("USER_MYSQL")
+	password := os.Getenv("PASS_MYSQL")
+	dbName := os.Getenv("DB_MYSQL")
+
+	connectionString := fmt.Sprintf("%s:%s@tcp(localhost:3306)/%s", username, password, dbName)
+	db, err := sql.Open("mysql", connectionString)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	errPing := db.Ping()
+	if errPing != nil {
+		panic(errPing.Error())
+	}
+
 	//Dentista:
-	storageDentista := dentistaPkg.NewSQLDentista()
+	storageDentista := dentistaPkg.NewSQLDentista(db)
 	repoDentista := dentista.NewRepository(storageDentista)
 	serviceDentista := dentista.NewService(repoDentista)
 	dentistaHandler := handler.NewDentistaHandler(serviceDentista)
 
 	//Paciente
-	storagePaciente := pacientePkg.NewSQLPaciente()
+	storagePaciente := pacientePkg.NewSQLPaciente(db)
 	repoPaciente := paciente.NewRepository(storagePaciente)
 	servicePaciente := paciente.NewService(repoPaciente)
 	pacienteHandler := handler.NewPacienteHandler(servicePaciente)
 
 	//Turno
-	storageTurno := turnoPkg.NewSQLTurno()
+	storageTurno := turnoPkg.NewSQLTurno(db)
 	repoTurno := turno.NewTurnoRepository(storageTurno)
 	serviceTurno := turno.NewService(repoTurno)
 	turnoHandler := handler.NewTurnoHandler(serviceTurno)

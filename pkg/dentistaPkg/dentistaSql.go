@@ -7,26 +7,23 @@ import (
 	"github.com/MarcelaRamg/FinalBack3.git/internal/domain"
 )
 
-type sqlStore struct {
+type sqlDentista struct {
 	DB *sql.DB
 }
 
-func NewSQLDentista() DentistaInterface {
-	database, err := sql.Open("mysql", "root:toor@tcp(localhost:3306)/clinica")
+func NewSQLDentista(db *sql.DB) DentistaInterface {
+
+	err := db.Ping()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	if err := database.Ping(); err != nil {
-		log.Fatalln(err)
-	}
-
-	return &sqlStore{
-		DB: database,
+	return &sqlDentista{
+		DB: db,
 	}
 }
 
-func (s *sqlStore) Read(id int) (domain.Dentista, error) {
+func (s *sqlDentista) Read(id int) (domain.Dentista, error) {
 
 	var dentistaReturn domain.Dentista
 
@@ -39,7 +36,7 @@ func (s *sqlStore) Read(id int) (domain.Dentista, error) {
 	return dentistaReturn, nil //va aqui un puntero?
 }
 
-func (s *sqlStore) Create(dentista domain.Dentista) error {
+func (s *sqlDentista) Create(dentista domain.Dentista) error {
 
 	query := "INSERT INTO dentista(Apellido, Nombre, Matricula) VALUES(?, ?, ?)"
 	stmt, err := s.DB.Prepare(query)
@@ -59,7 +56,7 @@ func (s *sqlStore) Create(dentista domain.Dentista) error {
 	return nil
 }
 
-func (s *sqlStore) Update(dentista domain.Dentista) error {
+func (s *sqlDentista) Update(dentista domain.Dentista) error {
 
 	query := "UPDATE dentista SET Apellido = ?, Nombre = ?, Matricula = ?  WHERE ID = ?;"
 
@@ -80,7 +77,7 @@ func (s *sqlStore) Update(dentista domain.Dentista) error {
 	return nil
 }
 
-func (s *sqlStore) Delete(id int) error {
+func (s *sqlDentista) Delete(id int) error {
 
 	query := "DELETE FROM dentista WHERE ID = ?"
 	_, err := s.DB.Exec(query, id)
@@ -90,7 +87,7 @@ func (s *sqlStore) Delete(id int) error {
 	return nil
 }
 
-func (s *sqlStore) Exists(codeValue string) bool {
+func (s *sqlDentista) Exists(codeValue string) bool {
 
 	query := "SELECT ID FROM dentista WHERE Matricula like(%?%)"
 	row := s.DB.QueryRow(query, codeValue)

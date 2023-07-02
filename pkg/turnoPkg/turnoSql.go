@@ -14,18 +14,13 @@ type sqlTurno struct {
 	db *sql.DB
 }
 
-func NewSQLTurno() TurnoInterface {
-	database, err := sql.Open("mysql", "root:toor@tcp(localhost:3306)/clinica")
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	if err := database.Ping(); err != nil {
+func NewSQLTurno(db *sql.DB) TurnoInterface {
+	if err := db.Ping(); err != nil {
 		log.Fatalln(err)
 	}
 
 	return &sqlTurno{
-		db: database,
+		db: db,
 	}
 }
 
