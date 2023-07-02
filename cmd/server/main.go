@@ -25,8 +25,6 @@ import (
 
 func main() {
 
-	// storage := store.NewJsonStore("../../products.json")
-
 	db, err := sql.Open("mysql", "root:Fukurokuju77@tcp/finalBack3")
 	if err != nil {
 		panic(err)
