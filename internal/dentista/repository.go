@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/MarcelaRamg/FinalBack3.git/internal/domain"
-	"github.com/MarcelaRamg/FinalBack3.git/pkg/store"
+	"github.com/MarcelaRamg/FinalBack3.git/pkg/dentistaPkg"
 )
 
 type DentistaRepository interface {
@@ -20,11 +20,11 @@ type DentistaRepository interface {
 }
 
 type dentistaRepository struct {
-	storage store.DentistaInterface
+	storage dentistaPkg.DentistaInterface
 }
 
 // NewRepository crea un nuevo repositorio
-func NewRepository(storage store.DentistaInterface) DentistaRepository {
+func NewRepository(storage dentistaPkg.DentistaInterface) DentistaRepository {
 	return &dentistaRepository{storage}
 }
 

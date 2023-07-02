@@ -1,4 +1,4 @@
-package store
+package dentistaPkg
 
 import (
 	"database/sql"
