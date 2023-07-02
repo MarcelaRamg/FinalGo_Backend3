@@ -43,8 +43,6 @@ func (s *jsonStore) saveDentistas(dentista []domain.Dentista) error {
 // @Param token header string true "token"
 // @Param product body request true "Dentistas to store"
 // @Success 200 {object} web.Response
-// @Router /products [post]
-
 // NewJsonStore crea un nuevo store de dentistas
 func NewJsonStore(path string) DentistaInterface {
 	_, err := os.Stat(path)
