@@ -1,8 +1,6 @@
 package main
 
 import (
-	"database/sql"
-
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/MarcelaRamg/FinalBack3.git/cmd/server/handler"
@@ -25,13 +23,7 @@ import (
 
 func main() {
 
-	// storage := store.NewJsonStore("../../products.json")
-
-	db, err := sql.Open("mysql", "root:Fukurokuju77@tcp/finalBack3")
-	if err != nil {
-		panic(err)
-	}
-	storage := dentistaPkg.NewSqlStore(db)
+	storage := dentistaPkg.NewSQLDentista()
 
 	repo := dentista.NewRepository(storage)
 	service := dentista.NewService(repo)

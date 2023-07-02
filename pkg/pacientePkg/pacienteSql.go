@@ -15,7 +15,7 @@ type sqlPaciente struct {
 }
 
 func NewSQLPaciente() PacienteInterface {
-	database, err := sql.Open("mysql", "breno:root@tcp(localhost:3306)/clinica")
+	database, err := sql.Open("mysql", "root:toor@tcp(localhost:3306)/clinica")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -48,10 +48,10 @@ func (s *sqlPaciente) Read(id int) (domain.Paciente, error) {
 	for rows.Next() {
 		err := rows.Scan(
 			&paciente.ID,
-			&paciente.Name,
+			&paciente.Nombre,
 			&paciente.Apellido,
 			&paciente.Dni,
-			&paciente.FechaNacimiento,
+			&paciente.FechaAlta,
 		)
 		if err != nil {
 			return domain.Paciente{}, err
@@ -64,10 +64,10 @@ func (s *sqlPaciente) Update(paciente domain.Paciente) error {
 	fmt.Println("updating Paciente")
 	_, err := s.db.Exec(
 		"UPDATE pacientes SET name = ?, apellido = ?, dni = ?, fecha_nacimiento = ? WHERE id = ?;",
-		paciente.Name,
+		paciente.Nombre,
 		paciente.Apellido,
 		paciente.Dni,
-		paciente.FechaNacimiento,
+		paciente.FechaAlta,
 		paciente.ID,
 	)
 	if err != nil {
@@ -84,10 +84,10 @@ func (s *sqlPaciente) Exists(RG string) bool {
 func (s *sqlPaciente) Create(paciente domain.Paciente) error {
 	_, err := s.db.Exec(
 		"INSERT INTO Pacientes (name, apellido, dni, fecha_nacimiento) VALUES (?, ?, ?, ?)",
-		paciente.Name,
+		paciente.Nombre,
 		paciente.Apellido,
 		paciente.Dni,
-		paciente.FechaNacimiento,
+		paciente.FechaAlta,
 	)
 	if err != nil {
 		return err

@@ -15,7 +15,7 @@ type sqlTurno struct {
 }
 
 func NewSQLTurno() TurnoInterface {
-	database, err := sql.Open("mysql", "breno:root@tcp(localhost:3306)/clinica")
+	database, err := sql.Open("mysql", "root:toor@tcp(localhost:3306)/clinica")
 	if err != nil {
 		log.Fatalln(err)
 	}
