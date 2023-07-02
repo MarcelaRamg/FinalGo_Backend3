@@ -36,6 +36,19 @@ func (s *sqlDentista) Read(id int) (domain.Dentista, error) {
 	return dentistaReturn, nil //va aqui un puntero?
 }
 
+func (s *sqlDentista) ReadByMatricula(matricula string) (domain.Dentista, error) {
+
+	var dentistaReturn domain.Dentista
+
+	query := "SELECT * FROM dentista WHERE Matricula = ?;"
+	row := s.DB.QueryRow(query, matricula)
+	err := row.Scan(&dentistaReturn.ID, &dentistaReturn.Apellido, &dentistaReturn.Nombre, &dentistaReturn.Matricula)
+	if err != nil {
+		return domain.Dentista{}, err
+	}
+	return dentistaReturn, nil
+}
+
 func (s *sqlDentista) Create(dentista domain.Dentista) error {
 
 	query := "INSERT INTO dentista(Apellido, Nombre, Matricula) VALUES(?, ?, ?)"

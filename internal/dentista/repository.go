@@ -11,6 +11,8 @@ type DentistaRepository interface {
 
 	// GetByID busca un dentista por su id
 	GetByID(id int) (domain.Dentista, error)
+	// GetByID busca un dentista por su id
+	GetByMatricula(matricula string) (domain.Dentista, error)
 	// Create agrega un nuevo dentista
 	Create(p domain.Dentista) (domain.Dentista, error)
 	// Update actualiza un dentista
@@ -30,6 +32,14 @@ func NewRepository(storage dentistaPkg.DentistaInterface) DentistaRepository {
 
 func (r *dentistaRepository) GetByID(id int) (domain.Dentista, error) {
 	product, err := r.storage.Read(id)
+	if err != nil {
+		return domain.Dentista{}, errors.New("dentista not found")
+	}
+	return product, nil
+
+}
+func (r *dentistaRepository) GetByMatricula(matricula string) (domain.Dentista, error) {
+	product, err := r.storage.ReadByMatricula(matricula)
 	if err != nil {
 		return domain.Dentista{}, errors.New("dentista not found")
 	}

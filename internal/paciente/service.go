@@ -5,13 +5,15 @@ import (
 )
 
 type Service interface {
-	// GetByID busca un producto por su id
+	// GetByID busca un paciente por su id
 	GetByID(id int) (domain.Paciente, error)
-	// Create agrega un nuevo producto
+	// GetByDni busca un paciente por DNI
+	GetByDni(dni float64) (domain.Paciente, error)
+	// Create agrega un nuevo paciente
 	Create(p domain.Paciente) (domain.Paciente, error)
-	// Delete elimina un producto
+	// Delete elimina un paciente
 	Delete(id int) error
-	// Update actualiza un producto
+	// Update actualiza un paciente
 	Update(id int, p domain.Paciente) (domain.Paciente, error)
 }
 
@@ -26,6 +28,14 @@ func NewService(r Repository) Service {
 
 func (s *service) GetByID(id int) (domain.Paciente, error) {
 	p, err := s.r.GetByID(id)
+	if err != nil {
+		return domain.Paciente{}, err
+	}
+	return p, nil
+}
+
+func (s *service) GetByDni(dni float64) (domain.Paciente, error) {
+	p, err := s.r.GetByDni(dni)
 	if err != nil {
 		return domain.Paciente{}, err
 	}
