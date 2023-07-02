@@ -140,9 +140,9 @@ func (h *turnoHandler) Put() gin.HandlerFunc {
 func (h *turnoHandler) Patch() gin.HandlerFunc {
 	type Request struct {
 		FechaHora   string `json:"fechaHora,omitempty"`
-		Descripcion string `json:"Descripcion,omitempty"`
-		PacienteID  string `json:"paciente_id,omitempty"`
-		DentistaID  string `json:"dentista_id,omitempty"`
+		Descripcion string `json:"descripcion,omitempty"`
+		PacienteID  string `json:"paciente,omitempty"`
+		DentistaID  string `json:"odontologo,omitempty"`
 	}
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
