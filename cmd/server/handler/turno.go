@@ -2,10 +2,13 @@ package handler
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"strconv"
 
+	"github.com/MarcelaRamg/FinalBack3.git/internal/dentista"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/domain"
+	"github.com/MarcelaRamg/FinalBack3.git/internal/paciente"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/turno"
 	"github.com/MarcelaRamg/FinalBack3.git/pkg/web"
 	"github.com/gin-gonic/gin"
@@ -58,6 +61,51 @@ func (h *turnoHandler) Post() gin.HandlerFunc {
 			web.Failure(c, 400, errors.New("invalid json"))
 			return
 		}
+		p, err := h.s.Create(turno)
+		if err != nil {
+			web.Failure(c, 400, err)
+			return
+		}
+		web.Success(c, 201, p)
+	}
+}
+
+func (h *turnoHandler) PostByDniAndMatricula(servicePaciente paciente.Service, serviceDentista dentista.DentistaService) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token := c.GetHeader("TOKEN")
+		if token == "" {
+			web.Failure(c, 401, errors.New("token not found"))
+			return
+		}
+		if token != os.Getenv("TOKEN") {
+			web.Failure(c, 401, errors.New("invalid token"))
+			return
+		}
+		var turnoAux domain.TurnoByMatriculaAndDni
+		var turno domain.Turno
+
+		err := c.ShouldBindJSON(&turnoAux)
+		if err != nil {
+			web.Failure(c, 400, errors.New("invalid json"))
+			return
+		}
+		paciente, err := servicePaciente.GetByDni(turnoAux.Dni)
+		if err != nil {
+			web.Failure(c, 404, errors.New("Paciente inexistente"))
+
+		}
+		turno.PacienteID = fmt.Sprint(paciente.ID)
+		odontologo, err := serviceDentista.GetByMatricula(turnoAux.Matricula)
+
+		if err != nil {
+			web.Failure(c, 404, errors.New("Odontologo inexistente"))
+
+		}
+		turno.DentistaID = fmt.Sprint(odontologo.ID)
+
+		turno.FechaHora = turnoAux.FechaHora
+		turno.Descripcion = turnoAux.Descripcion
+
 		p, err := h.s.Create(turno)
 		if err != nil {
 			web.Failure(c, 400, err)

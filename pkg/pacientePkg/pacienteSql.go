@@ -45,6 +45,18 @@ func (s *sqlPaciente) Read(id int) (domain.Paciente, error) {
 	return paciente, nil
 }
 
+func (s *sqlPaciente) ReadByDni(dni float64) (domain.Paciente, error) {
+	var paciente domain.Paciente
+
+	query := "SELECT * from Pacientes WHERE Dni = ?"
+	row := s.db.QueryRow(query, dni)
+	err := row.Scan(&paciente.ID, &paciente.Nombre, &paciente.Apellido, &paciente.Dni, &paciente.FechaAlta)
+	if err != nil {
+		return domain.Paciente{}, err
+	}
+	return paciente, nil
+}
+
 func (s *sqlPaciente) Update(paciente domain.Paciente) error {
 	fmt.Println("updating Paciente")
 	_, err := s.db.Exec(
