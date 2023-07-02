@@ -47,7 +47,7 @@ func (s *sqlPaciente) Read(id int) (domain.Paciente, error) {
 	}
 	for rows.Next() {
 		err := rows.Scan(
-			&paciente.Id,
+			&paciente.ID,
 			&paciente.Name,
 			&paciente.Apellido,
 			&paciente.Dni,
@@ -68,7 +68,7 @@ func (s *sqlPaciente) Update(paciente domain.Paciente) error {
 		paciente.Apellido,
 		paciente.Dni,
 		paciente.FechaNacimiento,
-		paciente.Id,
+		paciente.ID,
 	)
 	if err != nil {
 		fmt.Println(err)
