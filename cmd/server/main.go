@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	storage := store.NewSqlStore(db)
+	storage := store.NewDentistaSql(db)
 
 	repo := dentista.NewRepository(storage)
 	service := dentista.NewService(repo)
