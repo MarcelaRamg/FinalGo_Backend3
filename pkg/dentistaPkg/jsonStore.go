@@ -1,4 +1,4 @@
-package dentista
+package dentistaPkg
 
 import (
 	"encoding/json"

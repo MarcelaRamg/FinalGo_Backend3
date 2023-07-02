@@ -1,4 +1,4 @@
-package dentista
+package dentistaPkg
 
 import "github.com/MarcelaRamg/FinalBack3.git/internal/domain"
 

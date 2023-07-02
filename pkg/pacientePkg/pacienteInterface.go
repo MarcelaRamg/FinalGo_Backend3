@@ -1,4 +1,4 @@
-package paciente
+package pacientePkg
 
 import "github.com/MarcelaRamg/FinalBack3.git/internal/domain"
 
