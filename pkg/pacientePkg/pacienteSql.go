@@ -39,23 +39,13 @@ func (s *sqlPaciente) Delete(id int) error {
 }
 
 func (s *sqlPaciente) Read(id int) (domain.Paciente, error) {
-	paciente := domain.Paciente{}
+	var paciente domain.Paciente
 
-	rows, err := s.db.Query("SELECT * from Pacientes WHERE ID=?", id)
+	query := "SELECT * from Pacientes WHERE ID=?"
+	row := s.db.QueryRow(query, id)
+	err := row.Scan(&paciente.ID, &paciente.Nombre, &paciente.Apellido, &paciente.Dni, &paciente.FechaAlta)
 	if err != nil {
 		return domain.Paciente{}, err
-	}
-	for rows.Next() {
-		err := rows.Scan(
-			&paciente.ID,
-			&paciente.Nombre,
-			&paciente.Apellido,
-			&paciente.Dni,
-			&paciente.FechaAlta,
-		)
-		if err != nil {
-			return domain.Paciente{}, err
-		}
 	}
 	return paciente, nil
 }
