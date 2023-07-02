@@ -7,7 +7,7 @@ import (
 
 	"github.com/MarcelaRamg/FinalBack3.git/cmd/server/handler"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/dentista"
-	"github.com/MarcelaRamg/FinalBack3.git/pkg/store"
+	"github.com/MarcelaRamg/FinalBack3.git/pkg/dentistaPkg"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	storage := store.NewSqlStore(db)
+	storage := dentistaPkg.NewSqlStore(db)
 
 	repo := dentista.NewRepository(storage)
 	service := dentista.NewService(repo)
