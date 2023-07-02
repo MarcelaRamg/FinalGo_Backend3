@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/MarcelaRamg/FinalBack3.git/internal/domain"
-	"github.com/MarcelaRamg/FinalBack3.git/pkg/store"
+	"github.com/MarcelaRamg/FinalBack3.git/pkg/turnoPkg"
 )
 
 type TurnoRepository interface {
@@ -17,23 +17,19 @@ type TurnoRepository interface {
 	Update(id int, p domain.Turno) (domain.Turno, error)
 	// Delete elimina un turno
 	Delete(id int) error
-	/* // Create runo por DNI del paciente y matricula del dentista
-	CreateByPacienteAndDentistaID(paciente_dni string, dentista_matricula string) ([]domain.Turno, error)
-	// GetByPacienteDNI
-	GetByPacienteDNI(paciente_dni string) ([]domain.Turno, error)*/
 }
 
 type turnoRepository struct {
-	storage store.DentistaInterface
+	storage turnoPkg.TurnoInterface
 }
 
 // NewRepository crea un nuevo repositorio
 
-func NewTurnoRepository(storage store.TurnoInterface) TurnoRepository {
-	return &TurnoRepository{storage}
+func NewTurnoRepository(storage turnoPkg.TurnoInterface) TurnoRepository {
+	return &turnoRepository{storage}
 }
 
-func (r *TurnoRepository) GetByID(id int) (domain.Turno, error) {
+func (r *turnoRepository) GetByID(id int) (domain.Turno, error) {
 	turno, err := r.storage.Read(id)
 	if err != nil {
 		return domain.Turno{}, errors.New("turno not found")
@@ -41,7 +37,7 @@ func (r *TurnoRepository) GetByID(id int) (domain.Turno, error) {
 	return turno, nil
 }
 
-func (r *TurnoRepository) Create(p domain.Turno) (domain.Turno, error) {
+func (r *turnoRepository) Create(p domain.Turno) (domain.Turno, error) {
 	if r.storage.Exists(p.ID) {
 		return domain.Turno{}, errors.New("turno already exists")
 	}
@@ -52,7 +48,7 @@ func (r *TurnoRepository) Create(p domain.Turno) (domain.Turno, error) {
 	return p, nil
 }
 
-func (r *TurnoRepository) Delete(id int) error {
+func (r *turnoRepository) Delete(id int) error {
 	err := r.storage.Delete(id)
 	if err != nil {
 		return err
@@ -60,7 +56,7 @@ func (r *TurnoRepository) Delete(id int) error {
 	return nil
 }
 
-func (r *TurnoRepository) Update(id int, p domain.Turno) (domain.Turno, error) {
+func (r *turnoRepository) Update(id int, p domain.Turno) (domain.Turno, error) {
 	if r.storage.Exists(p.ID) {
 		return domain.Turno{}, errors.New("turno already exists")
 	}
