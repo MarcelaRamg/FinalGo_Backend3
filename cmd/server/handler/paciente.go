@@ -23,15 +23,6 @@ func NewPacienteHandler(s paciente.Service) *pacienteHandler {
 	}
 }
 
-// @Summary Obtener paciente por ID
-// @Description Obtiene los datos de un paciente existente por su ID
-// @Tags Paciente
-// @Produce json
-// @Param id path int true "ID del paciente"
-// @Success 200 {object} PacienteResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Router /pacientes/{id} [get]
 func (h *pacienteHandler) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("id")
@@ -77,17 +68,6 @@ func validateFechaAlta(exp string) (bool, error) {
 	return true, nil
 }
 
-// @Summary Crear nuevo paciente
-// @Description Crea un nuevo paciente con los datos proporcionados
-// @Tags Paciente
-// @Accept json
-// @Produce json
-// @Param TOKEN header string true "Token de autenticación"
-// @Param paciente body PacienteRequest true "Datos del paciente"
-// @Success 201 {object} PacienteResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Router /pacientes [post]
 func (h *pacienteHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -124,18 +104,6 @@ func (h *pacienteHandler) Post() gin.HandlerFunc {
 	}
 }
 
-// @Summary Eliminar paciente
-// @Description Elimina un paciente por su ID
-// @Tags Paciente
-// @Accept json
-// @Produce json
-// @Param TOKEN header string true "Token de autenticación"
-// @Param id path int true "ID del paciente a eliminar"
-// @Success 204
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Router /pacientes/{id} [delete]
 func (h *pacienteHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -162,20 +130,6 @@ func (h *pacienteHandler) Delete() gin.HandlerFunc {
 	}
 }
 
-// @Summary Actualizar paciente
-// @Description Actualiza un paciente por su ID
-// @Tags Paciente
-// @Accept json
-// @Produce json
-// @Param TOKEN header string true "Token de autenticación"
-// @Param id path int true "ID del paciente a actualizar"
-// @Param paciente body Paciente true "Datos del paciente a actualizar"
-// @Success 200 {object} PacienteResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 409 {object} ErrorResponse
-// @Router /pacientes/{id} [put]
 func (h *pacienteHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -227,20 +181,6 @@ func (h *pacienteHandler) Put() gin.HandlerFunc {
 	}
 }
 
-// @Summary Actualizar parcialmente paciente
-// @Description Actualiza parcialmente un paciente por su ID
-// @Tags Paciente
-// @Accept json
-// @Produce json
-// @Param TOKEN header string true "Token de autenticación"
-// @Param id path int true "ID del paciente a actualizar"
-// @Param paciente body Request true "Datos del paciente a actualizar"
-// @Success 200 {object}
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 409 {object} ErrorResponse
-// @Router /pacientes/{id} [patch]
 func (h *pacienteHandler) Patch() gin.HandlerFunc {
 	type Request struct {
 		Nombre    string  `json:"name,omitempty"`

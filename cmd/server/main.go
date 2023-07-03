@@ -9,6 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/MarcelaRamg/FinalBack3.git/cmd/server/handler"
+	"github.com/MarcelaRamg/FinalBack3.git/docs"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/dentista"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/paciente"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/turno"
@@ -19,7 +20,6 @@ import (
 	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/swag/example/basic/docs"
 )
 
 // @title           Web Api

@@ -21,17 +21,6 @@ func NewDentistaHandler(s dentista.DentistaService) *dentistaHandler {
 	}
 }
 
-// ListDentista godoc
-// @Summary Obtener dentista por ID
-// @Description Obtiene un dentista por su ID
-// @Tags Dentista
-// @Accept json
-// @Produce json
-// @Param id path int true "ID del dentista"
-// @Success 200
-// @Failure 400
-// @Failure 404
-// @Router /dentistas/{id} [get]
 func (h *dentistaHandler) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("id")
@@ -49,7 +38,6 @@ func (h *dentistaHandler) GetByID() gin.HandlerFunc {
 	}
 }
 
-// validateEmptys valida que los campos no esten vacios
 func validateEmptys(dentista *domain.Dentista) (bool, error) {
 	switch {
 	case dentista.Nombre == "" || dentista.Apellido == "" || dentista.Matricula == "":
@@ -58,17 +46,6 @@ func validateEmptys(dentista *domain.Dentista) (bool, error) {
 	return true, nil
 }
 
-// @Summary Crear dentista
-// @Description Crea un nuevo dentista
-// @Tags Dentista
-// @Accept json
-// @Produce json
-// @Param TOKEN header string true "Token de autenticación"
-// @Param dentista body Dentista true "Información del dentista a crear"
-// @Success 201
-// @Failure 400
-// @Failure 401
-// @Router /dentistas [post]
 func (h *dentistaHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var dentista domain.Dentista
@@ -101,18 +78,6 @@ func (h *dentistaHandler) Post() gin.HandlerFunc {
 	}
 }
 
-// @Summary Eliminar dentista por ID
-// @Description Elimina un dentista por su ID
-// @Tags Dentista
-// @Accept json
-// @Produce json
-// @Param TOKEN header string true "Token de autenticación"
-// @Param id path int true "ID del dentista a eliminar"
-// @Success 204
-// @Failure 400
-// @Failure 401
-// @Failure 404
-// @Router /dentistas/{id} [delete]
 func (h *dentistaHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -139,20 +104,6 @@ func (h *dentistaHandler) Delete() gin.HandlerFunc {
 	}
 }
 
-// @Summary Actualizar dentista por ID
-// @Description Actualiza los datos de un dentista existente por su ID
-// @Tags Dentista
-// @Accept json
-// @Produce json
-// @Param TOKEN header string true "Token de autenticación"
-// @Param id path int true "ID del dentista a actualizar"
-// @Param dentista body DentistaRequest true "Datos del dentista a actualizar"
-// @Success 200
-// @Failure 400
-// @Failure 401
-// @Failure 404
-// @Failure 409
-// @Router /dentistas/{id} [put]
 func (h *dentistaHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -199,20 +150,6 @@ func (h *dentistaHandler) Put() gin.HandlerFunc {
 	}
 }
 
-// @Summary Actualizar parcialmente dentista por ID
-// @Description Actualiza parcialmente los datos de un dentista existente por su ID
-// @Tags Dentista
-// @Accept json
-// @Produce json
-// @Param TOKEN header string true "Token de autenticación"
-// @Param id path int true "ID del dentista a actualizar"
-// @Param update body DentistaUpdateRequest true "Datos a actualizar del dentista"
-// @Success 200
-// @Failure 400
-// @Failure 401
-// @Failure 404
-// @Failure 409
-// @Router /dentistas/{id} [patch]
 func (h *dentistaHandler) Patch() gin.HandlerFunc {
 	type Request struct {
 		Apellido  string `json:"apellido,omitempty"`

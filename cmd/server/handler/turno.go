@@ -21,16 +21,6 @@ func NewTurnoHandler(s turno.TurnoService) *turnoHandler {
 	}
 }
 
-// @Summary Obtener turno por ID
-// @Description Obtiene un turno por su ID
-// @Tags Turno
-// @Accept json
-// @Produce json
-// @Param id path int true "ID del turno a obtener"
-// @Success 200 {object} TurnoResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Router /turnos/{id} [get]
 func (h *turnoHandler) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("id")
@@ -48,16 +38,6 @@ func (h *turnoHandler) GetByID() gin.HandlerFunc {
 	}
 }
 
-// @Summary Crear turno
-// @Description Crea un nuevo turno
-// @Tags Turno
-// @Accept json
-// @Produce json
-// @Param TOKEN header string true "Token de autenticación"
-// @Param turno body TurnoRequest true "Datos del turno a crear"
-// @Success 201 {object} TurnoResponse
-// @Failure 400 {object} ErrorResponse
-// @Router /turnos [post]
 func (h *turnoHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -84,16 +64,6 @@ func (h *turnoHandler) Post() gin.HandlerFunc {
 	}
 }
 
-// @Summary Eliminar turno
-// @Description Elimina un turno existente por su ID
-// @Tags Turno
-// @Param TOKEN header string true "Token de autenticación"
-// @Param id path int true "ID del turno a eliminar"
-// @Success 204
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Router /turnos/{id} [delete]
 func (h *turnoHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -120,20 +90,6 @@ func (h *turnoHandler) Delete() gin.HandlerFunc {
 	}
 }
 
-// @Summary Actualizar turno
-// @Description Actualiza un turno existente por su ID
-// @Tags Turno
-// @Param TOKEN header string true "Token de autenticación"
-// @Param id path int true "ID del turno a actualizar"
-// @Accept json
-// @Produce json
-// @Param turno body TurnoRequest true "Datos del turno a actualizar"
-// @Success 200 {object} TurnoResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 409 {object} ErrorResponse
-// @Router /turnos/{id} [put]
 func (h *turnoHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -175,20 +131,6 @@ func (h *turnoHandler) Put() gin.HandlerFunc {
 	}
 }
 
-// @Summary Actualizar parcialmente un turno
-// @Description Actualiza parcialmente un turno existente por su ID
-// @Tags Turno
-// @Param TOKEN header string true "Token de autenticación"
-// @Param id path int true "ID del turno a actualizar"
-// @Accept json
-// @Produce json
-// @Param turno body TurnoPatchRequest true "Datos parciales del turno a actualizar"
-// @Success 200 {object} TurnoResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 409 {object} ErrorResponse
-// @Router /turnos/{id} [patch]
 func (h *turnoHandler) Patch() gin.HandlerFunc {
 	type Request struct {
 		FechaHora   string `json:"fechaHora,omitempty"`
