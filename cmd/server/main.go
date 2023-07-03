@@ -6,10 +6,10 @@ import (
 	"log"
 	"os"
 
+	_ "github.com/MarcelaRamg/FinalBack3.git/docs"
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/MarcelaRamg/FinalBack3.git/cmd/server/handler"
-	"github.com/MarcelaRamg/FinalBack3.git/docs"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/dentista"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/paciente"
 	"github.com/MarcelaRamg/FinalBack3.git/internal/turno"
@@ -76,8 +76,8 @@ func main() {
 
 	r := gin.Default()
 
-	docs.SwaggerInfo.Host = os.Getenv("HOST")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	r.GET("/ping", func(c *gin.Context) { c.String(200, "pong") })
 
 	dentistas := r.Group("/dentistas")
