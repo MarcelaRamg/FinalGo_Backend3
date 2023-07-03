@@ -51,7 +51,17 @@ func (h *turnoHandler) GetByID() gin.HandlerFunc {
 	}
 }
 
-// Get obtiene un turno por DNI
+// GetByDni obtiene un turno por DNI del paciente
+// @Summary Obtener turno por DNI
+// @Description Obtiene un turno por el número de DNI del paciente
+// @Tags Turno
+// @Accept json
+// @Produce json
+// @Param DNI query string true "Número de DNI del paciente"
+// @Success 200
+// @Failure 400
+// @Failure 404
+// @Router /turnos [get]
 func (h *turnoHandler) GetByDni(servicePaciente paciente.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Query("DNI")
@@ -107,6 +117,19 @@ func (h *turnoHandler) Post() gin.HandlerFunc {
 	}
 }
 
+// PostByDniAndMatricula crea un turno por DNI del paciente y matrícula del dentista
+// @Summary Crear turno por DNI y matrícula
+// @Description Crea un nuevo turno asociado al número de DNI del paciente y la matrícula del dentista
+// @Tags Turno
+// @Accept json
+// @Produce json
+// @Param TOKEN header string true "Token de autenticación"
+// @Param turnoAux body domain.TurnoByMatriculaAndDni true "Información del turno a crear"
+// @Success 201 {
+// @Failure 400
+// @Failure 401
+// @Failure 404
+// @Router /turnos [post]
 func (h *turnoHandler) PostByDniAndMatricula(servicePaciente paciente.Service, serviceDentista dentista.DentistaService) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -128,14 +151,14 @@ func (h *turnoHandler) PostByDniAndMatricula(servicePaciente paciente.Service, s
 		}
 		paciente, err := servicePaciente.GetByDni(turnoAux.Dni)
 		if err != nil {
-			web.Failure(c, 404, errors.New("Paciente inexistente"))
+			web.Failure(c, 404, errors.New("paciente inexistente"))
 
 		}
 		turno.PacienteID = fmt.Sprint(paciente.ID)
 		odontologo, err := serviceDentista.GetByMatricula(turnoAux.Matricula)
 
 		if err != nil {
-			web.Failure(c, 404, errors.New("Odontologo inexistente"))
+			web.Failure(c, 404, errors.New("odontologo inexistente"))
 
 		}
 		turno.DentistaID = fmt.Sprint(odontologo.ID)
