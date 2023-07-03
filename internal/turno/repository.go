@@ -11,6 +11,8 @@ type TurnoRepository interface {
 
 	// GetByID busca un turno por su id
 	GetByID(id int) (domain.Turno, error)
+	// GetByDni busca los turnos por dni del paciente
+	GetByDni(dni float64) ([]domain.Turno, error)
 	// Create agrega un nuevo turno
 	Create(p domain.Turno) (domain.Turno, error)
 	// Update actualiza un turno
@@ -35,6 +37,14 @@ func (r *turnoRepository) GetByID(id int) (domain.Turno, error) {
 		return domain.Turno{}, errors.New("turno not found")
 	}
 	return turno, nil
+}
+
+func (r *turnoRepository) GetByDni(dni float64) ([]domain.Turno, error) {
+	turnos, err := r.storage.ReadByDni(dni)
+	if err != nil {
+		return []domain.Turno{}, errors.New("turno not found")
+	}
+	return turnos, nil
 }
 
 func (r *turnoRepository) Create(p domain.Turno) (domain.Turno, error) {

@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS `clinica`.`Pacientes` (
   `Apellido` VARCHAR(45) NOT NULL,
   `Dni` DOUBLE NOT NULL,
   `FechaAlta` DATE NOT NULL,
-  PRIMARY KEY (`ID`))
+  PRIMARY KEY (`ID`),
+  UNIQUE INDEX `Dni_UNIQUE` (`Dni` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -35,7 +36,8 @@ CREATE TABLE IF NOT EXISTS `clinica`.`Dentista` (
   `Apellido` VARCHAR(45) NOT NULL,
   `Nombre` VARCHAR(45) NULL,
   `Matricula` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ID`))
+  PRIMARY KEY (`ID`),
+  UNIQUE INDEX `Matricula_UNIQUE` (`Matricula` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
