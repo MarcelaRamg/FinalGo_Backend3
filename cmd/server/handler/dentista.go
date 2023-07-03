@@ -15,22 +15,22 @@ type dentistaHandler struct {
 	s dentista.DentistaService
 }
 
-// NewDentistaHandler crea un nuevo controller de dentista
 func NewDentistaHandler(s dentista.DentistaService) *dentistaHandler {
 	return &dentistaHandler{
 		s: s,
 	}
 }
 
+// ListDentista godoc
 // @Summary Obtener dentista por ID
 // @Description Obtiene un dentista por su ID
 // @Tags Dentista
 // @Accept json
 // @Produce json
 // @Param id path int true "ID del dentista"
-// @Success 200 {object} Dentista
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Success 200
+// @Failure 400
+// @Failure 404
 // @Router /dentistas/{id} [get]
 func (h *dentistaHandler) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -65,9 +65,9 @@ func validateEmptys(dentista *domain.Dentista) (bool, error) {
 // @Produce json
 // @Param TOKEN header string true "Token de autenticación"
 // @Param dentista body Dentista true "Información del dentista a crear"
-// @Success 201 {object} Dentista
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
+// @Success 201
+// @Failure 400
+// @Failure 401
 // @Router /dentistas [post]
 func (h *dentistaHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -108,10 +108,10 @@ func (h *dentistaHandler) Post() gin.HandlerFunc {
 // @Produce json
 // @Param TOKEN header string true "Token de autenticación"
 // @Param id path int true "ID del dentista a eliminar"
-// @Success 204 "Dentista eliminado exitosamente"
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Success 204
+// @Failure 400
+// @Failure 401
+// @Failure 404
 // @Router /dentistas/{id} [delete]
 func (h *dentistaHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -147,11 +147,11 @@ func (h *dentistaHandler) Delete() gin.HandlerFunc {
 // @Param TOKEN header string true "Token de autenticación"
 // @Param id path int true "ID del dentista a actualizar"
 // @Param dentista body DentistaRequest true "Datos del dentista a actualizar"
-// @Success 200 {object} DentistaResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 409 {object} ErrorResponse
+// @Success 200
+// @Failure 400
+// @Failure 401
+// @Failure 404
+// @Failure 409
 // @Router /dentistas/{id} [put]
 func (h *dentistaHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -207,11 +207,11 @@ func (h *dentistaHandler) Put() gin.HandlerFunc {
 // @Param TOKEN header string true "Token de autenticación"
 // @Param id path int true "ID del dentista a actualizar"
 // @Param update body DentistaUpdateRequest true "Datos a actualizar del dentista"
-// @Success 200 {object} DentistaResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 409 {object} ErrorResponse
+// @Success 200
+// @Failure 400
+// @Failure 401
+// @Failure 404
+// @Failure 409
 // @Router /dentistas/{id} [patch]
 func (h *dentistaHandler) Patch() gin.HandlerFunc {
 	type Request struct {

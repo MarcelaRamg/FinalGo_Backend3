@@ -17,6 +17,9 @@ import (
 	"github.com/MarcelaRamg/FinalBack3.git/pkg/turnoPkg"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/swag/example/basic/docs"
 )
 
 // @title           Web Api
@@ -73,6 +76,8 @@ func main() {
 
 	r := gin.Default()
 
+	docs.SwaggerInfo.Host = os.Getenv("HOST")
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/ping", func(c *gin.Context) { c.String(200, "pong") })
 
 	dentistas := r.Group("/dentistas")
@@ -100,7 +105,5 @@ func main() {
 		turnos.PUT(":id", turnoHandler.Put())
 	}
 
-	//docs.SwaggerInfo.Host = os.Getenv("HOST")
-	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.Run(":8080")
 }

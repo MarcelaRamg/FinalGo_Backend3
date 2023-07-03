@@ -15,7 +15,6 @@ type turnoHandler struct {
 	s turno.TurnoService
 }
 
-// NewTurnoHandler crea un nuevo controller de turno
 func NewTurnoHandler(s turno.TurnoService) *turnoHandler {
 	return &turnoHandler{
 		s: s,
