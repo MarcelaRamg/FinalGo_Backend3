@@ -4,6 +4,7 @@ import "github.com/MarcelaRamg/FinalBack3.git/internal/domain"
 
 type TurnoService interface {
 	GetByID(id int) (domain.Turno, error)
+	GetByDni(dni float64) ([]domain.Turno, error)
 	Create(p domain.Turno) (domain.Turno, error)
 	Delete(id int) error
 	Update(id int, p domain.Turno) (domain.Turno, error)
@@ -24,6 +25,14 @@ func (s *turnoService) GetByID(id int) (domain.Turno, error) {
 	turno, err := s.r.GetByID(id)
 	if err != nil {
 		return domain.Turno{}, err
+	}
+	return turno, nil
+}
+
+func (s *turnoService) GetByDni(dni float64) ([]domain.Turno, error) {
+	turno, err := s.r.GetByDni(dni)
+	if err != nil {
+		return []domain.Turno{}, err
 	}
 	return turno, nil
 }

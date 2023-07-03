@@ -43,6 +43,25 @@ func (h *turnoHandler) GetByID() gin.HandlerFunc {
 	}
 }
 
+// Get obtiene un turno por DNI
+func (h *turnoHandler) GetByDni(servicePaciente paciente.Service) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		idParam := c.Query("DNI")
+		dni, err := strconv.ParseFloat(idParam, 64)
+		if err != nil {
+			web.Failure(c, 400, errors.New("Dni invalido"))
+			return
+		}
+
+		turno, err := h.s.GetByDni(dni)
+		if err != nil {
+			web.Failure(c, 404, errors.New("no se encontró al turno"))
+			return
+		}
+		web.Success(c, 200, turno)
+	}
+}
+
 // Post crea un nuevo turno
 func (h *turnoHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {

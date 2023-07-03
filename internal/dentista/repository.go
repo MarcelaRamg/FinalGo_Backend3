@@ -48,9 +48,7 @@ func (r *dentistaRepository) GetByMatricula(matricula string) (domain.Dentista, 
 }
 
 func (r *dentistaRepository) Create(p domain.Dentista) (domain.Dentista, error) {
-	if r.storage.Exists(p.Matricula) {
-		return domain.Dentista{}, errors.New("matricula already exists")
-	}
+
 	err := r.storage.Create(p)
 	if err != nil {
 		return domain.Dentista{}, errors.New("error creating dentista")
@@ -67,9 +65,6 @@ func (r *dentistaRepository) Delete(id int) error {
 }
 
 func (r *dentistaRepository) Update(id int, p domain.Dentista) (domain.Dentista, error) {
-	if r.storage.Exists(p.Matricula) {
-		return domain.Dentista{}, errors.New("matricula already exists")
-	}
 	err := r.storage.Update(p)
 	if err != nil {
 		return domain.Dentista{}, errors.New("error updating dentista")

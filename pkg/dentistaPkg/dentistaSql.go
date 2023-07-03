@@ -102,7 +102,7 @@ func (s *sqlDentista) Delete(id int) error {
 
 func (s *sqlDentista) Exists(codeValue string) bool {
 
-	query := "SELECT ID FROM dentista WHERE Matricula like(%?%)"
+	query := "SELECT ID FROM dentista WHERE Matricula = ?"
 	row := s.DB.QueryRow(query, codeValue)
 	var id int
 	err := row.Scan(&id)

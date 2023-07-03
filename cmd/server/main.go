@@ -94,7 +94,7 @@ func main() {
 	turnos := r.Group("/turnos")
 	{
 		turnos.GET(":id", turnoHandler.GetByID())
-		turnos.POST("", turnoHandler.Post())
+		turnos.GET("/dni", turnoHandler.GetByDni(servicePaciente))
 		turnos.POST("/sinId", turnoHandler.PostByDniAndMatricula(servicePaciente, serviceDentista))
 		turnos.DELETE(":id", turnoHandler.Delete())
 		turnos.PATCH(":id", turnoHandler.Patch())

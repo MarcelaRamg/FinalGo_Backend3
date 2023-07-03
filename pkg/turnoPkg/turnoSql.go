@@ -55,6 +55,30 @@ func (s *sqlTurno) Read(id int) (domain.Turno, error) {
 	return turno, nil
 }
 
+func (s *sqlTurno) ReadByDni(dni float64) ([]domain.Turno, error) {
+	var turnos []domain.Turno
+
+	rows, err := s.db.Query("SELECT * from Turno WHERE exists(select 1 from pacientes where dni = ?)", dni)
+	if err != nil {
+		return []domain.Turno{}, err
+	}
+	for rows.Next() {
+		var turno domain.Turno
+		err := rows.Scan(
+			&turno.ID,
+			&turno.FechaHora,
+			&turno.PacienteID,
+			&turno.DentistaID,
+			&turno.Descripcion,
+		)
+		turnos = append(turnos, turno)
+		if err != nil {
+			return []domain.Turno{}, err
+		}
+	}
+	return turnos, nil
+}
+
 func (s *sqlTurno) Update(turno domain.Turno) error {
 	fmt.Println("updating Turno")
 	_, err := s.db.Exec(
