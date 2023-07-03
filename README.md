@@ -10,7 +10,7 @@ go install github.com/swaggo/swag/cmd/swag@latest
 swag init -g FinalGo_Backend3/cmd/main.go
 
 add documentation:
-swag init ../doc
+swag init ../docs
 
 si hay problemas con el docs.go:
 go get -u github.com/swaggo/swag 

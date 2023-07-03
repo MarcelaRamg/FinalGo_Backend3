@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	_ "github.com/MarcelaRamg/FinalBack3.git/docs"
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/MarcelaRamg/FinalBack3.git/cmd/server/handler"
@@ -17,6 +18,8 @@ import (
 	"github.com/MarcelaRamg/FinalBack3.git/pkg/turnoPkg"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title           Web Api
@@ -73,6 +76,8 @@ func main() {
 
 	r := gin.Default()
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	r.GET("/ping", func(c *gin.Context) { c.String(200, "pong") })
 
 	dentistas := r.Group("/dentistas")
@@ -101,7 +106,5 @@ func main() {
 		turnos.PUT(":id", turnoHandler.Put())
 	}
 
-	//docs.SwaggerInfo.Host = os.Getenv("HOST")
-	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.Run(":8080")
 }

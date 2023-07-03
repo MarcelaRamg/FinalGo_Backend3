@@ -1,0 +1,524 @@
+definitions:
+  domain.Dentista:
+    properties:
+      apellido:
+        type: string
+      id:
+        type: integer
+      matricula:
+        type: string
+      nombre:
+        type: string
+    required:
+    - apellido
+    - matricula
+    - nombre
+    type: object
+  domain.Paciente:
+    properties:
+      apellido:
+        type: string
+      dni:
+        type: number
+      fechaAlta:
+        type: string
+      id:
+        type: integer
+      nombre:
+        type: string
+    required:
+    - apellido
+    - dni
+    - fechaAlta
+    - nombre
+    type: object
+  domain.Turno:
+    properties:
+      descripcion:
+        type: string
+      fechaHora:
+        type: string
+      id:
+        type: integer
+      odontologo:
+        type: string
+      paciente:
+        type: string
+    required:
+    - descripcion
+    - fechaHora
+    - odontologo
+    - paciente
+    type: object
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This Api is to handle dentistas paciente and turnos
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Web Api
+  version: "1.0"
+paths:
+  /dentistas:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo dentista
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Información del dentista a crear
+        in: body
+        name: dentista
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentista'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      summary: Crear dentista
+      tags:
+      - Dentista
+  /dentistas/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Elimina un dentista por su ID
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: ID del dentista a eliminar
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      summary: Eliminar dentista por ID
+      tags:
+      - Dentista
+    get:
+      consumes:
+      - application/json
+      description: Obtiene un dentista por su ID
+      parameters:
+      - description: ID del dentista
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Obtener dentista por ID
+      tags:
+      - Dentista
+    patch:
+      consumes:
+      - application/json
+      description: Actualiza parcialmente los datos de un dentista existente por su
+        ID
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: ID del dentista a actualizar
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos a actualizar del dentista
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentista'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+      summary: Actualizar parcialmente dentista por ID
+      tags:
+      - Dentista
+    put:
+      consumes:
+      - application/json
+      description: Actualiza los datos de un dentista existente por su ID
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: ID del dentista a actualizar
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos del dentista a actualizar
+        in: body
+        name: dentista
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentista'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+      summary: Actualizar dentista por ID
+      tags:
+      - Dentista
+  /pacientes:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo paciente con los datos proporcionados
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Datos del paciente
+        in: body
+        name: paciente
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Paciente'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      summary: Crear nuevo paciente
+      tags:
+      - Paciente
+  /pacientes/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Elimina un paciente por su ID
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: ID del paciente a eliminar
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      summary: Eliminar paciente
+      tags:
+      - Paciente
+    get:
+      description: Obtiene los datos de un paciente existente por su ID
+      parameters:
+      - description: ID del paciente
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Obtener paciente por ID
+      tags:
+      - Paciente
+    patch:
+      consumes:
+      - application/json
+      description: Actualiza parcialmente un paciente por su ID
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: ID del paciente a actualizar
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos del paciente a actualizar
+        in: body
+        name: paciente
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Paciente'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+      summary: Actualizar parcialmente paciente
+      tags:
+      - Paciente
+    put:
+      consumes:
+      - application/json
+      description: Actualiza un paciente por su ID
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: ID del paciente a actualizar
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos del paciente a actualizar
+        in: body
+        name: paciente
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Paciente'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+      summary: Actualizar paciente
+      tags:
+      - Paciente
+  /turnos:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo turno
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Datos del turno a crear
+        in: body
+        name: turno
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+      summary: Crear turno
+      tags:
+      - Turno
+  /turnos/{id}:
+    delete:
+      description: Elimina un turno existente por su ID
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: ID del turno a eliminar
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      summary: Eliminar turno
+      tags:
+      - Turno
+    get:
+      consumes:
+      - application/json
+      description: Obtiene un turno por su ID
+      parameters:
+      - description: ID del turno a obtener
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Obtener turno por ID
+      tags:
+      - Turno
+    patch:
+      consumes:
+      - application/json
+      description: Actualiza parcialmente un turno existente por su ID
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: ID del turno a actualizar
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos parciales del turno a actualizar
+        in: body
+        name: turno
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+      summary: Actualizar parcialmente un turno
+      tags:
+      - Turno
+    put:
+      consumes:
+      - application/json
+      description: Actualiza un turno existente por su ID
+      parameters:
+      - description: Token de autenticación
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: ID del turno a actualizar
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos del turno a actualizar
+        in: body
+        name: turno
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+      summary: Actualizar turno
+      tags:
+      - Turno
+swagger: "2.0"
